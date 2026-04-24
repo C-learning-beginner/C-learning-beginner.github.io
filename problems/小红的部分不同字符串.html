@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动态规划例题</title>
     <style>
         body{max-width: 800px;margin: 30px auto;padding: 0 20px;}
         pre{background:#f4f4f4;padding:15px;border-radius:6px;overflow:auto;}
@@ -12,13 +11,60 @@
 </head>
 <body>
     <a href="../index.html" class="back">← 返回题库首页</a>
-    <h2>题目：xxx</h2>
-    <p>题目描述：在这里粘贴原题</p>
+    <h2>题目：小红的部分不同字符串</h2>
+    <p>题目描述：
+        有一个未知的长度为 n 的字符串，保证该字符串仅由 26 个小写英文字母组成。
+        现有 n 个限制条件，用一个数组 a = {a₁, a₂, …, aₙ} 表示，意为 sᵢ ≠ s_{aᵢ}（即字符串中第 i 个字符与第 aᵢ 个字符不同）。 
+        请你计算在满足所有限制条件的情况下，有多少种不同的字符串。由于答案可能很大，请输出其对 998244353 取模的结果。
+        
+        输入描述 第一行一个整数 n，表示字符串长度（2 ≤ n ≤ 2×10⁵）。 第二行 n 个整数 aᵢ（1 ≤ aᵢ ≤ n, aᵢ ≠ i），代表数组 a。 
+        输出描述 输出一行一个整数，表示不同的字符串数量对 998244353 取模的结果。 
+        示例1 输入 2 2 1 输出 650 
+        示例2 输入 6 5 1 4 1 1 4 输出 253906250</p>
     <h3>思路</h3>
-    <p>自己的理解、解题逻辑</p>
+    <p>vibe coding</p>
     <h3>代码</h3>
-    <pre>
-// 粘贴你的C++/Python代码
-    </pre>
+    <pre><code>
+    vi fa,sz; 
+    int find(int x){
+        return fa[x] == x ? x : fa[x] = find(fa[x]);
+    } 
+    void merge(int x,int y){
+        x = find(x),y = find(y);
+        if(x == y)return;
+        sz[y] += sz[x];
+        fa[x] = y;
+    }
+        
+    void hanshu(){
+        int n;cin >> n; 
+        vi a(n + 1),indeg(n + 1,0);
+        for(int i = 0;i < n;i++)cin >> a[i + 1];
+        fa.resize(n + 1);sz.resize(n + 1,1);iota(all(fa),0);
+        for(int i = 1;i <= n;i++){
+            merge(i,a[i]);
+            indeg[a[i]]++;
+        } 
+        queue<int>q;
+        for(int i = 1;i <= n;i++)
+            if(indeg[i] == 0)q.push(i);
+        vi loop(n + 1,1);
+        while(q.size()){
+            int u = q.front();q.pop();
+            loop[u] = 0;
+            if(--indeg[a[u]] == 0)q.push(a[u]);
+        } 
+        vi len(n + 1,0);
+        for(int i = 1;i <= n;i++)
+            if(loop[i])len[find(i)]++;
+        int ans = 1;
+        for(int i = 1;i <= n;i++){
+            if(find(i) != i)continue;
+            int now = ksm(25,(int)(sz[i] - len[i])) * (ksm(25,len[i]) + 25 * ksm(-1,len[i])) % mod;
+            ans = ans * now % mod;
+        }
+        cout << ans << endl;
+    }
+    </code></pre>
 </body>
 </html>
