@@ -37,10 +37,13 @@ p{margin:0;color:#444;}
 
 <section>
     <h4>4. 如何实现</h4>
-    <p>struct seg{<p>
-        <p>int l,r;<p>
-        <p>bool operator＜(const auto& a)const{return r ＜ a.l;}<p>
-    <p>};</p>
+    <p>自定义比较运算符，让 set 能根据左右端点排序并识别相交：</p>
+    <pre><code>struct seg{
+        int l,r;
+        bool operator&lt;(const auto& a)const{
+            return r &lt; a.l;
+        }
+    };</code></pre>
 </section>
 
 <section>
