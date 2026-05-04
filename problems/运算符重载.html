@@ -22,7 +22,7 @@ p{margin:0;color:#444;}
 
 <section>
     <h4>1. 题目概述</h4>
-    <p>维护一个线段集合S，包含修改和查询操作，修改是把与目标线段相交的全删去，把目标线段加入，并输出删除线段的数量；查询是S元素数量</p>
+    <p>维护一个线段集合S，包含修改和查询操作，修改是把与目标线段相交的全删去，把目标线段加入，并输出这次删除线段的数量；查询是输出S当前元素数量</p>
 </section>
 
 <section>
@@ -39,11 +39,11 @@ p{margin:0;color:#444;}
     <h4>4. 如何实现</h4>
     <p>自定义比较运算符，让 set 能根据左右端点排序并识别相交：</p>
     <pre><code>struct seg{
-        int l,r;
-        bool operator&lt;(const auto& a)const{
-            return r &lt; a.l;
-        }
-    };</code></pre>
+    int l,r;
+    bool operator&lt;(const auto& a)const{
+        return r &lt; a.l;
+    }
+};</code></pre>
 </section>
 
 <section>
